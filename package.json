@@ -1,0 +1,68 @@
+{
+  "name": "ai-project-generator",
+  "version": "6.0.0",
+  "description": "AI-powered project generator with mobile support and modular architecture",
+  "main": "index.html",
+  "homepage": "https://github.com/juanitto-maker/Claude_AI_CodePlatform",
+  "keywords": [
+    "ai",
+    "project-generator",
+    "mobile",
+    "vanilla-js",
+    "code-generator",
+    "claude",
+    "gemini",
+    "development-tools"
+  ],
+  "scripts": {
+    "start": "python -m http.server 3000 || python3 -m http.server 3000 || npx http-server -p 3000",
+    "serve": "python -m http.server 8080 || python3 -m http.server 8080",
+    "dev": "npx live-server --port=3000 --host=localhost --open=/",
+    "build": "echo 'Static files ready for deployment'",
+    "test": "echo 'No tests specified - manual testing required'",
+    "lint": "echo 'No linting configured - vanilla JavaScript'",
+    "deploy:vercel": "vercel --prod",
+    "deploy:netlify": "netlify deploy --prod --dir=.",
+    "deploy:surge": "surge . --domain ai-project-generator.surge.sh",
+    "deploy:github": "git add . && git commit -m 'Deploy to GitHub Pages' && git push origin main",
+    "clean": "echo 'No build artifacts to clean'",
+    "validate": "echo 'Validating HTML structure...' && npx html-validate index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juanitto-maker/Claude_AI_CodePlatform.git"
+  },
+  "bugs": {
+    "url": "https://github.com/juanitto-maker/Claude_AI_CodePlatform/issues"
+  },
+  "author": {
+    "name": "Juan Carlos",
+    "email": "your.email@example.com",
+    "url": "https://github.com/juanitto-maker"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {},
+  "dependencies": {},
+  "files": [
+    "index.html",
+    "core.js",
+    "ai.js",
+    "ui.js",
+    "styles.css",
+    "vercel.json",
+    "README.md"
+  ],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "config": {
+    "port": 3000,
+    "host": "localhost"
+  }
+}

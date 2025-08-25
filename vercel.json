@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "buildCommand": "echo 'Static build complete'",
+  "outputDirectory": ".",
+  "routes": [
+    {
+      "src": "/core.js",
+      "dest": "/core.js"
+    },
+    {
+      "src": "/ai.js", 
+      "dest": "/ai.js"
+    },
+    {
+      "src": "/ui.js",
+      "dest": "/ui.js"
+    },
+    {
+      "src": "/styles.css",
+      "dest": "/styles.css"
+    },
+    {
+      "src": "/package.json",
+      "dest": "/package.json"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

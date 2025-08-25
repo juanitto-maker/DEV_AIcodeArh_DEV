@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>AI Project Generator Platform</title>
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">AI Project Generator</div>
+            
+            <div class="agent-system">
+                <div class="agent-container">
+                    <button class="agent-btn active" id="generatorAgent" title="Generator Agent - Creates new code and files">
+                        <div class="agent-toggle-area" onclick="handleAgentToggle('generator', event)">
+                            <div class="agent-indicator active"></div>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="0.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M11.414 10l-7.383 7.418a2.091 2.091 0 0 0 0 2.967a2.11 2.11 0 0 0 2.976 0l7.407 -7.385" />
+  <path d="M18.121 15.293l2.586 -2.586a1 1 0 0 0 0 -1.414l-7.586 -7.586a1 1 0 0 0 -1.414 0l-2.586 2.586a1 1 0 0 0 0 1.414l7.586 7.586a1 1 0 0 0 1.414 0z" />
+</svg>
+
+
+                            <span class="agent-text">Gen</span>
+                        </div>
+                        <div class="agent-dropdown-toggle" onclick="toggleAgentDropdown('generator', event)">
+                            <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 9l6 6l6 -6"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="agent-dropdown glass-container" id="generatorDropdown">
+                        <div class="agent-dropdown-content">
+                            <div class="dropdown-section">
+                                <div class="dropdown-section-header">Model</div>
+                                <select class="agent-model-selector glass-input" id="generatorModelSelect">
+                                    <option value="gemini-1.5-flash" selected>Gemini 1.5 Flash</option>
+                                    <option value="claude-opus-4-20250514">Claude Opus 4</option>
+                                    <option value="claude-sonnet-4-20250514">Claude Sonnet 4</option>
+                                    <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                                    <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                                    <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant (Groq)</option>
+                                    <option value="llama-3.3-70b-versatile">Llama 3.3 70B Versatile (Groq)</option>
+                                    <option value="openai/gpt-oss-20b">GPT OSS 20B 128k (Groq)</option>
+                                    <option value="openai/gpt-oss-120b">GPT OSS 120B 128k (Groq)</option>
+                                    <option value="mixtral-8x7b-32768">Mixtral 8x7B (Groq)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="dropdown-separator"></div>
+                            
+                            <div class="dropdown-section">
+                                <div class="dropdown-section-header">
+                                    <span>Instructions</span>
+                                    <span id="generatorInstructionsCount" class="instructions-count">(0)</span>
+                                </div>
+                                <div id="generatorInstructionsList" class="agent-instructions-list"></div>
+                                <div class="instructions-actions">
+                                    <input type="file" id="generatorInstructionsInput" multiple style="display: none;" accept="*/*">
+                                    <button class="butter-btn-square" onclick="document.getElementById('generatorInstructionsInput').click()" title="Upload instructions">
+                                        <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  view-box="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="0.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+  <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+  <path d="M12 11l0 6" />
+  <path d="M9 14l6 0" />
+</svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="agent-container">
+                    <button class="agent-btn active" id="tweakerAgent" title="Tweaker Agent - Modifies and improves existing code">
+                        <div class="agent-toggle-area" onclick="handleAgentToggle('tweaker', event)">
+                            <div class="agent-indicator active"></div>
+                           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+</svg>
+
+                            <span class="agent-text">Tweak</span>
+                        </div>
+                        <div class="agent-dropdown-toggle" onclick="toggleAgentDropdown('tweaker', event)">
+                            <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 9l6 6l6 -6"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="agent-dropdown glass-container" id="tweakerDropdown">
+                        <div class="agent-dropdown-content">
+                            <div class="dropdown-section">
+                                <div class="dropdown-section-header">Model</div>
+                                <select class="agent-model-selector glass-input" id="tweakerModelSelect">
+                                    <option value="gemini-1.5-flash" selected>Gemini 1.5 Flash</option>
+                                    <option value="claude-opus-4-20250514">Claude Opus 4</option>
+                                    <option value="claude-sonnet-4-20250514">Claude Sonnet 4</option>
+                                    <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                                    <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                                    <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant (Groq)</option>
+                                    <option value="llama-3.3-70b-versatile">Llama 3.3 70B Versatile (Groq)</option>
+                                    <option value="openai/gpt-oss-20b">GPT OSS 20B 128k (Groq)</option>
+                                    <option value="openai/gpt-oss-120b">GPT OSS 120B 128k (Groq)</option>
+                                    <option value="mixtral-8x7b-32768">Mixtral 8x7B (Groq)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="dropdown-separator"></div>
+                            
+                            <div class="dropdown-section">
+                                <div class="dropdown-section-header">
+                                    <span>Instructions</span>
+                                    <span id="tweakerInstructionsCount" class="instructions-count">(0)</span>
+                                </div>
+                                <div id="tweakerInstructionsList" class="agent-instructions-list"></div>
+                                <div class="instructions-actions">
+                                    <input type="file" id="tweakerInstructionsInput" multiple style="display: none;" accept="*/*">
+                                    <button class="butter-btn-square" onclick="document.getElementById('tweakerInstructionsInput').click()" title="Upload instructions">
+                                        <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="0.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+  <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+  <path d="M12 11l0 6" />
+  <path d="M9 14l6 0" />
+</svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="agent-container">
+                    <button class="agent-btn active" id="debuggerAgent" title="Debugger Agent - Finds and fixes issues">
+                        <div class="agent-toggle-area" onclick="handleAgentToggle('debugger', event)">
+                            <div class="agent-indicator active"></div>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="0.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M9 9v-1a3 3 0 0 1 6 0v1" />
+  <path d="M8 9h8a6 6 0 0 1 1 3v3a5 5 0 0 1 -10 0v-3a6 6 0 0 1 1 -3" />
+  <path d="M3 13l4 0" />
+  <path d="M17 13l4 0" />
+  <path d="M12 20l0 -6" />
+  <path d="M4 19l3.35 -2" />
+  <path d="M20 19l-3.35 -2" />
+  <path d="M4 7l3.75 2.4" />
+  <path d="M20 7l-3.75 2.4" />
+</svg>
+
+                            <span class="agent-text">Debug</span>
+                        </div>
+                        <div class="agent-dropdown-toggle" onclick="toggleAgentDropdown('debugger', event)">
+                            <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 9l6 6l6 -6"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="agent-dropdown glass-container" id="debuggerDropdown">
+                        <div class="agent-dropdown-content">
+                            <div class="dropdown-section">
+                                <div class="dropdown-section-header">Model</div>
+                                <select class="agent-model-selector glass-input" id="debuggerModelSelect">
+                                    <option value="gemini-1.5-flash" selected>Gemini 1.5 Flash</option>
+                                    <option value="claude-opus-4-20250514">Claude Opus 4</option>
+                                    <option value="claude-sonnet-4-20250514">Claude Sonnet 4</option>
+                                    <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                                    <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                                    <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant (Groq)</option>
+                                    <option value="llama-3.3-70b-versatile">Llama 3.3 70B Versatile (Groq)</option>
+                                    <option value="openai/gpt-oss-20b">GPT OSS 20B 128k (Groq)</option>
+                                    <option value="openai/gpt-oss-120b">GPT OSS 120B 128k (Groq)</option>
+                                    <option value="mixtral-8x7b-32768">Mixtral 8x7B (Groq)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="dropdown-separator"></div>
+                            
+                            <div class="dropdown-section">
+                                <div class="dropdown-section-header">
+                                    <span>Instructions</span>
+                                    <span id="debuggerInstructionsCount" class="instructions-count">(0)</span>
+                                </div>
+                                <div id="debuggerInstructionsList" class="agent-instructions-list"></div>
+                                <div class="instructions-actions">
+                                    <input type="file" id="debuggerInstructionsInput" multiple style="display: none;" accept="*/*">
+                                    <button class="butter-btn-square" onclick="document.getElementById('debuggerInstructionsInput').click()" title="Upload instructions">
+                                        <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="0.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+  <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+  <path d="M12 11l0 6" />
+  <path d="M9 14l6 0" />
+</svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <select class="model-selector glass-input" id="modelSelector">
+                    <option value="gemini-1.5-flash" selected>Gemini 1.5 Flash</option>
+                    <option value="claude-opus-4-20250514">Claude Opus 4</option>
+                    <option value="claude-sonnet-4-20250514">Claude Sonnet 4</option>
+                    <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                    <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                    <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant (Groq $0.05)</option>
+                    <option value="llama-3.3-70b-versatile">Llama 3.3 70B Versatile (Groq $0.59)</option>
+                    <option value="openai/gpt-oss-20b">GPT OSS 20B 128k (Groq $0.10)</option>
+                    <option value="openai/gpt-oss-120b">GPT OSS 120B 128k (Groq $0.15)</option>
+                    <option value="mixtral-8x7b-32768">Mixtral 8x7B (Groq $0.24)</option>
+                    <option value="llama3-8b-8192">Llama 3 8B (Groq $0.05)</option>
+                    <option value="llama3-70b-8192">Llama 3 70B (Groq $0.59)</option>
+                    <option value="gemma2-9b-it">Gemma 2 9B (Groq $0.20)</option>
+                </select>
+                
+                <div class="cost-container">
+                    <button class="butter-btn-square" id="costBtn" onclick="toggleCostDropdown()" title="Token cost tracking">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                            <path d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1 -1.8 -1"/>
+                            <path d="M12 7v10"/>
+                        </svg>
+                    </button>
+                    <div class="cost-dropdown glass-container" id="costDropdown">
+                        <div class="cost-dropdown-content">
+                            <div class="cost-header">
+                                <span>Token Cost Tracking</span>
+                                <button class="cost-close-btn" onclick="toggleCostDropdown()"></button>
+                            </div>
+                            
+                            <div class="cost-section">
+                                <div class="cost-total">
+                                    <span class="cost-label">Total Cost:</span>
+                                    <span class="cost-value" id="totalCost">$0.0000</span>
+                                </div>
+                            </div>
+                            
+                            <div class="cost-separator"></div>
+                            
+                            <div class="cost-section">
+                                <div class="cost-subsection-header">Cost by Model</div>
+                                <select class="cost-model-selector glass-input" id="costModelSelector" onchange="updateCostModelView()">
+                                    <option value="all">All Models</option>
+                                    <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+                                    <option value="claude-opus-4-20250514">Claude Opus 4</option>
+                                    <option value="claude-sonnet-4-20250514">Claude Sonnet 4</option>
+                                    <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                                    <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                                    <option value="llama-3.1-8b-instant">Llama 3.1 8B</option>
+                                    <option value="llama-3.3-70b-versatile">Llama 3.3 70B</option>
+                                    <option value="openai/gpt-oss-20b">GPT OSS 20B</option>
+                                    <option value="openai/gpt-oss-120b">GPT OSS 120B</option>
+                                    <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+                                </select>
+                                
+                                <div class="cost-breakdown" id="costBreakdown">
+                                    <div class="cost-item">
+                                        <span class="cost-item-label">Input Tokens:</span>
+                                        <span class="cost-item-value" id="modelInputTokens">0</span>
+                                    </div>
+                                    <div class="cost-item">
+                                        <span class="cost-item-label">Output Tokens:</span>
+                                        <span class="cost-item-value" id="modelOutputTokens">0</span>
+                                    </div>
+                                    <div class="cost-item">
+                                        <span class="cost-item-label">Requests:</span>
+                                        <span class="cost-item-value" id="modelRequests">0</span>
+                                    </div>
+                                    <div class="cost-item">
+                                        <span class="cost-item-label">Model Cost:</span>
+                                        <span class="cost-item-value" id="modelCost">$0.0000</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="cost-separator"></div>
+                            
+                            <div class="cost-actions">
+                                <button class="cost-action-btn butter-btn-square" onclick="downloadCostReport()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/>
+                                        <path d="M7 11l5 5l5 -5"/>
+                                        <path d="M12 4l0 12"/>
+                                    </svg>
+                                </button>
+                                <button class="cost-action-btn butter-btn-square" onclick="resetCostTracking()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"/>
+                                        <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="butter-btn" onclick="showApiKeySetup()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0z"/>
+                        <path d="M15 9h.01"/>
+                    </svg>
+                    <span>API Keys</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="main-content" id="mainContent">
+            <div class="left-column" id="leftColumn">
+                <div class="file-tree" id="fileTree">
+                    <div class="project-section" id="projectSection">
+                        <div class="section-header" >
+                            <div class="section-title">
+                                <div class="context-toggle-all active" id="projectContextToggle"></div>
+                                <span>Repo</span>
+                                <span id="fileCount" style="font-size: 12px; color: var(--text-secondary);">(0)</span>
+                            </div>
+                            <div class="file-tree-actions">
+                                <input type="file" id="fileInput" multiple style="display: none;" accept="*/*">
+                                <input type="file" id="folderInput" webkitdirectory directory multiple style="display: none;">
+                                <input type="file" id="contextFileInput" multiple style="display: none;" accept="*/*">
+                                <input type="file" id="promptFileInput" multiple style="display: none;" accept="*/*">
+                                <input type="file" id="instructionsFileInput" multiple style="display: none;" accept="*/*">
+                                
+                                <button class="butter-btn-square" onclick="document.getElementById('fileInput').click(); event.stopPropagation()" title="Upload files">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M14 3v4a1 1 0 0 0 1 1h4"/>
+                                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/>
+                                        <path d="M12 11l0 6"/>
+                                        <path d="M9 14l6 0"/>
+                                    </svg>
+                                </button>
+                                
+                                <button class="butter-btn-square" onclick="document.getElementById('folderInput').click(); event.stopPropagation()" title="Upload folder">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 19h-7a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2h4l3 3h7a2 2 0 0 1 2 2v3.5"/>
+                                        <path d="M16 19h6"/>
+                                        <path d="M19 16v6"/>
+                                    </svg>
+                                </button>
+                                
+                            <button class="butter-btn-square" onclick="downloadProjectAsZip(); event.stopPropagation()" title="Download project as ZIP">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/>
+                                        <path d="M7 11l5 5l5 -5"/>
+                                        <path d="M12 4l0 12"/>
+                                    </svg>
+                                </button>
+                                
+                                <button class="butter-btn-square" onclick="deleteAllFilesAndFolders(); event.stopPropagation()" title="Clear project files only">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 7l16 0"/>
+                                        <path d="M10 11l0 6"/>
+                                        <path d="M14 11l0 6"/>
+                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/>
+                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="fileList"></div>
+                    </div>
+                    
+                    <div class="file-separator"></div>
+                    
+                    <div class="project-section" id="instructionsSection">
+                        <div class="section-header" >
+                            <div class="section-title">
+                                <div class="context-toggle-all active" id="instructionsContextToggle"></div>
+                                <span>Instruct</span>
+                                <span id="instructionsCount" style="font-size: 12px; color: var(--text-secondary);">(0)</span>
+                            </div>
+                            <div class="file-tree-actions">
+                               <button class="butter-btn-square" onclick="document.getElementById('instructionsFileInput').click(); event.stopPropagation()" title="Upload instructions">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"/>
+                                        <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="instructionsList"></div>
+                    </div>
+                    
+                    <div class="file-separator"></div>
+                    
+                    <div class="project-section" id="promptSection">
+                        <div class="section-header" >
+                            <div class="section-title">
+                                <div class="context-toggle-all active" id="promptContextToggle"></div>
+                                <span>Attach</span>
+                                <span id="promptCount" style="font-size: 12px; color: var(--text-secondary);">(0)</span>
+                            </div>
+                            <div class="file-tree-actions">
+                              <button class="butter-btn-square" onclick="clearAllAttachments(); event.stopPropagation()" title="Delete all attachments">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"/>
+                                        <path d="M9 9l6 6m0 -6l-6 6"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="promptList"></div>
+                    </div>
+                </div>
+                <div class="resizer-vertical" id="resizerVertical"></div>
+            </div>
+
+            <div class="right-column" id="rightColumn">
+                <div class="editor-container" id="editorContainer">
+                    <div class="editor-tabs" id="editorTabs"></div>
+                    <div class="editor-actions">
+                        <button class="butter-btn" onclick="saveCurrentFile()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/>
+                                <path d="M7 11l5 5l5 -5"/>
+                                <path d="M12 4l0 12"/>
+                            </svg>
+                            <span>Save</span>
+                        </button>
+                        <button class="butter-btn" onclick="showFindReplace()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 9v-1a3 3 0 0 1 6 0v1"/>
+                                <path d="M8 9h8a6 6 0 0 1 1 3v3a5 5 0 0 1 -10 0v-3a6 6 0 0 1 1 -3"/>
+                                <path d="M3 13l4 0"/>
+                                <path d="M17 13l4 0"/>
+                                <path d="M12 20l0 -6"/>
+                                <path d="M4 19l3.35 -2"/>
+                                <path d="M20 19l-3.35 -2"/>
+                                <path d="M4 7l3.75 2.4"/>
+                                <path d="M20 7l-3.75 2.4"/>
+                            </svg>
+                            <span>Debug</span>
+                        </button>
+                    </div>
+                    <div id="editor"></div>
+                    <div class="resizer-horizontal" id="resizerHorizontal"></div>
+                </div>
+
+                <div class="chat-container" id="chatContainer">
+                    <div class="chat-header">
+                        <span>AI Project Architect</span>
+                        <span id="conversationState" style="font-size: 12px; color: var(--text-secondary);"></span>
+                    </div>
+                    <div class="chat-messages" id="chatMessages"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-container glass-container" id="floatingInput">
+            <button class="show-hide-toggle butter-btn-square" id="showHideToggle" onclick="toggleInputVisibility()" title="Show/Hide input">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+            </button>
+            
+            <div class="button-grid">
+                <button class="butter-grid-btn" onclick="toggleEditor()" title="Toggle editor window" id="toggleEditorBtn">
+                    <svg id="editorToggleIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 11v8l3 -3m-6 0l3 3"/>
+                        <path d="M9 7l1 0"/>
+                        <path d="M14 7l1 0"/>
+                        <path d="M19 7l1 0"/>
+                        <path d="M4 7l1 0"/>
+                    </svg>
+                </button>
+
+                <button class="butter-grid-btn" onclick="document.getElementById('promptFileInput').click()" title="Attach files">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 7l-6.5 6.5a1.5 1.5 0 0 0 3 3l6.5 -6.5a3 3 0 0 0 -6 -6l-6.5 6.5a4.5 4.5 0 0 0 9 9l6.5 -6.5"/>
+                    </svg>
+                </button>
+
+                <button class="butter-grid-btn context-button" onclick="toggleContextDropdown()" title="Context size and details">
+                    <div class="context-indicator-large" id="contextIndicatorLarge"></div>
+                </button>
+
+                <button class="butter-grid-btn" onclick="clearChatContext()" title="Clear chat context">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"/>
+                        <path d="M9 9l6 6m0 -6l-6 6"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="context-dropdown glass-container" id="contextDropdown">
+                <div class="context-dropdown-header">Context Size: <span id="contextSizeText">0 KB</span></div>
+                <div class="context-dropdown-content" id="contextFilesList"></div>
+            </div>
+            
+            <div class="input-wrapper glass-input" id="inputWrapper">
+                <textarea id="messageInput" placeholder="Ask to create a project, modify code, or get help... (Shift+Enter to send)" rows="1"></textarea>
+            </div>
+            
+            <button class="butter-btn-icon" id="sendBtn" onclick="sendMessage()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 14l11 -11"/>
+                    <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="mobile-nav">
+            <button class="mobile-nav-btn active" onclick="showMobileView('editor')">Code</button>
+            <button class="mobile-nav-btn" onclick="showMobileView('files')">Files</button>
+            <button class="mobile-nav-btn" onclick="showMobileView('chat')">Chat</button>
+        </div>
+    </div>
+
+    <div class="dialog-overlay" id="dialogOverlay"></div>
+
+    <div class="find-replace-dialog" id="findReplaceDialog">
+        <div class="dialog-header">Find & Replace</div>
+        <input type="text" class="dialog-input" id="findInput" placeholder="Find..." />
+        <textarea class="dialog-input" id="replaceInput" placeholder="Replace with..." rows="3"></textarea>
+        <div class="dialog-actions">
+            <button class="dialog-btn dialog-btn-cancel" onclick="closeFindReplace()">Cancel</button>
+            <button class="dialog-btn dialog-btn-primary" onclick="executeReplace()">Replace All</button>
+        </div>
+    </div>
+
+    <div class="api-key-setup" id="apiKeySetup">
+        <h2> API Keys Configuration</h2>
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-size: 14px;">Claude API Key (Anthropic)</label>
+            <input type="password" class="api-key-input" id="claudeApiKey" placeholder="sk-ant-..." />
+            <div class="api-key-note">Get your key from console.anthropic.com</div>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-size: 14px;">Gemini API Key (Google)</label>
+            <input type="password" class="api-key-input" id="geminiApiKey" placeholder="AIza..." />
+            <div class="api-key-note">Get your key from makersuite.google.com</div>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-size: 14px;">Groq API Key</label>
+            <input type="password" class="api-key-input" id="groqApiKey" placeholder="gsk_..." />
+            <div class="api-key-note">Get your key from console.groq.com</div>
+        </div>
+        <div class="dialog-actions">
+            <button class="dialog-btn dialog-btn-cancel" onclick="closeApiKeySetup()">Cancel</button>
+            <button class="dialog-btn dialog-btn-primary" onclick="saveApiKeys()">Save Keys</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/shell/shell.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/sql/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/go/go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/rust/rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/ruby/ruby.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/php/php.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/swift/swift.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <script src="core.js"></script>
+    <script src="ai.js"></script>
+    <script src="ui.js"></script>
+
+    <script>
+        // File: index.html
+        // [2025-08-17, 18:30:00] Revision 6 - ButterViz style integration
+
+        // Add clear all attachments function
+        function clearAllAttachments() {
+            if (state.promptUploads.size === 0) {
+                alert('No attachments to clear');
+                return;
+            }
+            
+            if (confirm(`Clear all ${state.promptUploads.size} attachment(s)?`)) {
+                // Clear all prompt attachments
+                state.promptUploads.forEach((file, name) => {
+                    state.contextFiles.delete(`prompt_${name}`);
+                });
+                state.promptUploads.clear();
+                
+                updatePromptList();
+                updateContextIndicator();
+                
+                addMessage('assistant', ` All attachments cleared successfully!`);
+            }
+        }
+
+        // ============================================================================
+        // TOKEN COST TRACKING FUNCTIONS
+        // ============================================================================
+        
+        let costDropdownVisible = false;
+        
+        function toggleCostDropdown() {
+            const dropdown = document.getElementById('costDropdown');
+            costDropdownVisible = !costDropdownVisible;
+            
+            if (costDropdownVisible) {
+                dropdown.classList.add('show');
+                updateCostDisplay();
+            } else {
+                dropdown.classList.remove('show');
+            }
+        }
+        
+        function updateCostDisplay() {
+            // Update total cost
+            const totalCostEl = document.getElementById('totalCost');
+            if (totalCostEl) {
+                totalCostEl.textContent = `$${state.tokenCosts.total.toFixed(4)}`;
+            }
+            
+            // Update model selector options
+            const modelSelector = document.getElementById('costModelSelector');
+            if (modelSelector) {
+                const currentValue = modelSelector.value;
+                const usedModels = Object.keys(state.tokenCosts.modelBreakdown);
+                
+                // Update options to show only used models
+                if (usedModels.length > 0 && currentValue === 'all') {
+                    updateCostModelView();
+                }
+            }
+        }
+        
+        function updateCostModelView() {
+            const selector = document.getElementById('costModelSelector');
+            const selectedModel = selector.value;
+            
+            const inputTokensEl = document.getElementById('modelInputTokens');
+            const outputTokensEl = document.getElementById('modelOutputTokens');
+            const requestsEl = document.getElementById('modelRequests');
+            const modelCostEl = document.getElementById('modelCost');
+            
+            if (selectedModel === 'all') {
+                // Show totals for all models
+                let totalInput = 0;
+                let totalOutput = 0;
+                let totalRequests = 0;
+                let totalCost = 0;
+                
+                Object.values(state.tokenCosts.modelBreakdown).forEach(data => {
+                    totalInput += data.inputTokens || 0;
+                    totalOutput += data.outputTokens || 0;
+                    totalRequests += data.requests || 0;
+                    totalCost += data.cost || 0;
+                });
+                
+                inputTokensEl.textContent = totalInput.toLocaleString();
+                outputTokensEl.textContent = totalOutput.toLocaleString();
+                requestsEl.textContent = totalRequests.toLocaleString();
+                modelCostEl.textContent = `$${totalCost.toFixed(4)}`;
+            } else {
+                // Show specific model data
+                const modelData = state.tokenCosts.modelBreakdown[selectedModel] || {
+                    inputTokens: 0,
+                    outputTokens: 0,
+                    requests: 0,
+                    cost: 0
+                };
+                
+                inputTokensEl.textContent = modelData.inputTokens.toLocaleString();
+                outputTokensEl.textContent = modelData.outputTokens.toLocaleString();
+                requestsEl.textContent = modelData.requests.toLocaleString();
+                modelCostEl.textContent = `$${modelData.cost.toFixed(4)}`;
+            }
+        }
+        
+        function trackTokenUsage(model, inputTokens, outputTokens) {
+            // Initialize model breakdown if needed
+            if (!state.tokenCosts.modelBreakdown[model]) {
+                state.tokenCosts.modelBreakdown[model] = {
+                    inputTokens: 0,
+                    outputTokens: 0,
+                    requests: 0,
+                    cost: 0
+                };
+            }
+            
+            // Update token counts
+            state.tokenCosts.modelBreakdown[model].inputTokens += inputTokens;
+            state.tokenCosts.modelBreakdown[model].outputTokens += outputTokens;
+            state.tokenCosts.modelBreakdown[model].requests += 1;
+            
+            // Calculate cost
+            const pricing = state.tokenCosts.pricing[model] || { input: 0, output: 0 };
+            const inputCost = (inputTokens / 1000) * pricing.input;
+            const outputCost = (outputTokens / 1000) * pricing.output;
+            const totalCost = inputCost + outputCost;
+            
+            state.tokenCosts.modelBreakdown[model].cost += totalCost;
+            state.tokenCosts.total += totalCost;
+            
+            // Add to history
+            state.tokenCosts.history.push({
+                timestamp: new Date().toISOString(),
+                model: model,
+                inputTokens: inputTokens,
+                outputTokens: outputTokens,
+                cost: totalCost
+            });
+            
+            // Update display if dropdown is open
+            if (costDropdownVisible) {
+                updateCostDisplay();
+            }
+            
+            // Save to localStorage
+            saveCostTracking();
+        }
+        
+        function estimateTokenCount(text) {
+            // Rough estimation: ~4 characters per token
+            return Math.ceil(text.length / 4);
+        }
+        
+        function downloadCostReport() {
+            const report = {
+                sessionStart: state.tokenCosts.sessionStart,
+                reportGenerated: new Date().toISOString(),
+                totalCost: state.tokenCosts.total,
+                modelBreakdown: state.tokenCosts.modelBreakdown,
+                history: state.tokenCosts.history,
+                summary: {
+                    totalRequests: state.tokenCosts.history.length,
+                    modelsUsed: Object.keys(state.tokenCosts.modelBreakdown).length,
+                    averageCostPerRequest: state.tokenCosts.history.length > 0 
+                        ? state.tokenCosts.total / state.tokenCosts.history.length 
+                        : 0
+                }
+            };
+            
+            const content = JSON.stringify(report, null, 2);
+            const blob = new Blob([content], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `token-cost-report-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            console.log(' Cost report downloaded');
+        }
+        
+        function resetCostTracking() {
+            if (confirm('Reset all cost tracking data?')) {
+                state.tokenCosts.total = 0;
+                state.tokenCosts.modelBreakdown = {};
+                state.tokenCosts.history = [];
+                state.tokenCosts.sessionStart = new Date().toISOString();
+                
+                updateCostDisplay();
+                saveCostTracking();
+                
+                console.log(' Cost tracking reset');
+            }
+        }
+        
+        function saveCostTracking() {
+            localStorage.setItem('tokenCosts', JSON.stringify(state.tokenCosts));
+        }
+        
+        function loadCostTracking() {
+            const saved = localStorage.getItem('tokenCosts');
+            if (saved) {
+                try {
+                    const loaded = JSON.parse(saved);
+                    state.tokenCosts = { ...state.tokenCosts, ...loaded };
+                } catch (error) {
+                    console.error('Failed to load cost tracking:', error);
+                }
+            }
+        }
+
+        // ============================================================================
+        // ENHANCED BUTTERVIZ AGENT DROPDOWN FUNCTIONS
+        // ============================================================================
+        
+        // Enhanced agent button click handler for ButterViz style - FIXED
+        function handleAgentClick(agentId, event) {
+            // This function is no longer needed as we're using separate click areas
+        }
+        
+        // Handle agent toggle (separate from dropdown)
+        function handleAgentToggle(agentId, event) {
+            event.stopPropagation();
+            handleEnhancedAgentToggle(agentId);
+        }
+        
+        // Toggle agent dropdown (separate from agent toggle)
+        function toggleAgentDropdown(agentId, event) {
+            event.stopPropagation();
+            
+            const dropdown = document.getElementById(`${agentId}Dropdown`);
+            const allDropdowns = document.querySelectorAll('.agent-dropdown');
+            
+            // Close other dropdowns
+            allDropdowns.forEach(d => {
+                if (d.id !== `${agentId}Dropdown`) {
+                    d.classList.remove('show');
+                }
+            });
+            
+            // Toggle current dropdown
+            dropdown.classList.toggle('show');
+            
+            // Update active dropdown state
+            if (dropdown.classList.contains('show')) {
+                state.agentSystem.activeDropdown = agentId;
+            } else {
+                state.agentSystem.activeDropdown = null;
+            }
+        }
+
+        // Enhanced agent toggle with ButterViz animations
+        function handleEnhancedAgentToggle(agentId) {
+            const button = document.getElementById(`${agentId}Agent`);
+            const indicator = button?.querySelector('.agent-indicator');
+            const icon = button?.querySelector('.agent-icon');
+            
+            // Add loading state
+            if (button) {
+                button.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    button.style.transform = '';
+                }, 150);
+            }
+            
+            const wasEnabled = state.agents[agentId].enabled;
+            const isNowEnabled = toggleAgent(agentId);
+            
+            // Enhanced visual feedback
+            const agent = state.agents[agentId];
+            const statusText = isNowEnabled ? 'activated' : 'deactivated';
+            const emoji = isNowEnabled ? '' : '';
+            
+            // Add glow effect for activation
+            if (isNowEnabled && button) {
+                button.style.boxShadow = '0 0 30px rgba(147, 51, 234, 0.6)';
+                setTimeout(() => {
+                    button.style.boxShadow = '';
+                }, 1000);
+            }
+            
+            console.log(`${emoji} ${agent.name} Agent ${statusText}`);
+            
+            // Update conversation state with enhanced styling
+            const prevState = state.conversationState;
+            updateConversationState(`${agent.name} ${statusText}`);
+            
+            // Reset state after 2 seconds
+            setTimeout(() => {
+                state.conversationState = prevState;
+                updateConversationState();
+            }, 2000);
+            
+            // Check if no agents are enabled
+            if (!hasEnabledAgents()) {
+                addMessage('assistant', ' **All agents disabled!** You need to enable at least one agent to use the AI features. Click the agent buttons in the header to activate them.');
+            } else if (!wasEnabled && isNowEnabled) {
+                // Agent was just enabled - show enhanced welcome message
+                const instructionCount = agent.instructions.size;
+                const instructionText = instructionCount > 0 ? ` with ${instructionCount} custom instruction(s)` : '';
+                
+                addMessage('assistant', ` **${agent.name} Agent activated!** ${agent.description}${instructionText}
+
+**Model:** ${agent.model}
+**Specializes in:** ${agent.keywords.slice(0, 5).join(', ')}...
+
+Ready to help with your ${agent.name.toLowerCase()} needs!`);
+            }
+        }
+
+        // Enhanced setup for agent model selectors with ButterViz styling
+        function setupEnhancedAgentModelSelectors() {
+            // Generator model selector
+            const generatorSelect = document.getElementById('generatorModelSelect');
+            if (generatorSelect) {
+                generatorSelect.addEventListener('change', (e) => {
+                    setAgentModel('generator', e.target.value);
+                    showModelChangeAnimation(generatorSelect);
+                });
+            }
+            
+            // Tweaker model selector
+            const tweakerSelect = document.getElementById('tweakerModelSelect');
+            if (tweakerSelect) {
+                tweakerSelect.addEventListener('change', (e) => {
+                    setAgentModel('tweaker', e.target.value);
+                    showModelChangeAnimation(tweakerSelect);
+                });
+            }
+            
+            // Debugger model selector
+            const debuggerSelect = document.getElementById('debuggerModelSelect');
+            if (debuggerSelect) {
+                debuggerSelect.addEventListener('change', (e) => {
+                    setAgentModel('debugger', e.target.value);
+                    showModelChangeAnimation(debuggerSelect);
+                });
+            }
+        }
+
+        // Model change animation for ButterViz style
+        function showModelChangeAnimation(selectElement) {
+            selectElement.style.transform = 'scale(1.02)';
+            selectElement.style.borderColor = 'var(--purple-400)';
+            selectElement.style.boxShadow = '0 0 20px rgba(168, 85, 247, 0.3)';
+            
+            setTimeout(() => {
+                selectElement.style.transform = '';
+                selectElement.style.borderColor = '';
+                selectElement.style.boxShadow = '';
+            }, 300);
+        }
+
+        // Enhanced agent instruction upload with ButterViz feedback
+        async function handleEnhancedAgentInstructionUpload(event, agentId) {
+            const files = event.target.files;
+            const agent = state.agents[agentId];
+            const uploadButton = document.querySelector(`#${agentId}InstructionsInput`).previousElementSibling;
+            
+            if (!agent) {
+                console.error(`Unknown agent: ${agentId}`);
+                return;
+            }
+            
+            // Show loading state on button
+            if (uploadButton) {
+                uploadButton.style.background = 'var(--purple-600-50)';
+                uploadButton.style.borderColor = 'var(--purple-500)';
+                uploadButton.style.transform = 'scale(0.95)';
+            }
+            
+            try {
+                let uploadedCount = 0;
+                
+                for (const file of files) {
+                    const content = await readFile(file);
+                    
+                    agent.instructions.set(file.name, {
+                        name: file.name,
+                        content: content,
+                        type: file.type || detectFileType(file.name),
+                        size: file.size,
+                        uploaded: new Date().toISOString()
+                    });
+                    
+                    // Auto-add to context
+                    state.contextFiles.add(`agent_${agentId}_${file.name}`);
+                    uploadedCount++;
+                }
+                
+                // Update UI with success animation
+                updateAgentInstructionsList(agentId);
+                updateEnhancedContextDropdownContent();
+                updateContextIndicator();
+                saveAgentStates();
+                
+                // Success animation
+                if (uploadButton) {
+                    uploadButton.style.background = 'var(--accent-green)';
+                    uploadButton.style.borderColor = 'var(--accent-green)';
+                    uploadButton.style.transform = 'scale(1.05)';
+                }
+                
+                // Show success feedback
+                if (uploadedCount > 0) {
+                    const pluralFiles = uploadedCount === 1 ? 'instruction' : 'instructions';
+                    console.log(` Added ${uploadedCount} ${pluralFiles} to ${agent.name} Agent`);
+                    
+                    // Show temporary status in conversation state
+                    const prevState = state.conversationState;
+                    updateConversationState(` ${uploadedCount} ${pluralFiles} added to ${agent.name} Agent`);
+                    setTimeout(() => {
+                        state.conversationState = prevState;
+                        updateConversationState();
+                    }, 3000);
+                }
+                
+                // Clear file input
+                event.target.value = '';
+                
+            } catch (error) {
+                console.error('Error uploading agent instructions:', error);
+                
+                // Error animation
+                if (uploadButton) {
+                    uploadButton.style.background = 'var(--accent-red)';
+                    uploadButton.style.borderColor = 'var(--accent-red)';
+                }
+                
+                alert(`Error uploading instructions: ${error.message}`);
+            } finally {
+                // Reset button state
+                setTimeout(() => {
+                    if (uploadButton) {
+                        uploadButton.style.background = '';
+                        uploadButton.style.borderColor = '';
+                        uploadButton.style.transform = '';
+                    }
+                }, 1000);
+            }
+        }
+
+        // Enhanced context dropdown with ButterViz animations
+        function toggleEnhancedContextDropdown() {
+            const dropdown = document.getElementById('contextDropdown');
+            const button = document.querySelector('.context-button');
+            
+            contextDropdownVisible = !contextDropdownVisible;
+            
+            if (contextDropdownVisible) {
+                dropdown.classList.add('show');
+                updateEnhancedContextDropdownContent();
+                
+                // Add opening animation
+                dropdown.style.opacity = '0';
+                dropdown.style.transform = 'translateY(10px) scale(0.95)';
+                setTimeout(() => {
+                    dropdown.style.opacity = '1';
+                    dropdown.style.transform = 'translateY(0) scale(1)';
+                }, 10);
+                
+                // Highlight context button
+                if (button) {
+                    button.style.transform = 'scale(1.1)';
+                    button.style.borderColor = 'var(--purple-400)';
+                }
+            } else {
+                // Closing animation
+                dropdown.style.opacity = '0';
+                dropdown.style.transform = 'translateY(10px) scale(0.95)';
+                setTimeout(() => {
+                    dropdown.classList.remove('show');
+                }, 200);
+                
+                // Reset button state
+                if (button) {
+                    button.style.transform = '';
+                    button.style.borderColor = '';
+                }
+            }
+        }
+
+        // Enhanced initialization for ButterViz styling
+        function initButterVizEnhancements() {
+            console.log(' Initializing ButterViz UI enhancements...');
+            
+            // Setup enhanced agent button handlers - NO LONGER NEEDED with separated areas
+            // Events are now handled inline with onclick attributes
+            
+            // Setup enhanced model selectors
+            setupEnhancedAgentModelSelectors();
+            
+            // Setup enhanced agent instruction uploads
+            ['generator', 'tweaker', 'debugger'].forEach(agentId => {
+                const input = document.getElementById(`${agentId}InstructionsInput`);
+                if (input) {
+                    input.addEventListener('change', async (e) => {
+                        await handleEnhancedAgentInstructionUpload(e, agentId);
+                    });
+                }
+            });
+            
+            // Replace context dropdown function
+            window.toggleContextDropdown = toggleEnhancedContextDropdown;
+            
+            // Add ButterViz glow effects to active elements
+            setInterval(() => {
+                document.querySelectorAll('.agent-indicator.active, .context-indicator-large').forEach(indicator => {
+                    if (indicator.classList.contains('active') || indicator.classList.contains('indicator-green')) {
+                        // Enhance glow effects periodically
+                        indicator.style.filter = 'brightness(1.1)';
+                        setTimeout(() => {
+                            indicator.style.filter = '';
+                        }, 500);
+                    }
+                });
+            }, 3000);
+            
+            // Enhanced keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Alt + 1,2,3 to toggle agents
+                if (e.altKey && ['1', '2', '3'].includes(e.key)) {
+                    e.preventDefault();
+                    const agentIds = ['generator', 'tweaker', 'debugger'];
+                    const agentId = agentIds[parseInt(e.key) - 1];
+                    if (agentId) {
+                        handleEnhancedAgentToggle(agentId);
+                    }
+                }
+                
+                // Alt + D to toggle dropdowns
+                if (e.altKey && e.key === 'd') {
+                    e.preventDefault();
+                    const agentIds = ['generator', 'tweaker', 'debugger'];
+                    agentIds.forEach(id => {
+                        const dropdown = document.getElementById(`${id}Dropdown`);
+                        if (dropdown) dropdown.classList.remove('show');
+                    });
+                }
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.agent-container')) {
+                    document.querySelectorAll('.agent-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('show');
+                    });
+                    state.agentSystem.activeDropdown = null;
+                }
+            });
+            
+            console.log(' ButterViz UI enhancements initialized successfully');
+        }
+
+        // ============================================================================
+        // FILE UPLOAD HANDLERS (Essential for functionality)
+        // ============================================================================
+        
+        async function handleFileUpload(event) {
+            const files = event.target.files;
+            await processFiles(files, true);
+            event.target.value = '';
+            
+            if (state.editorCollapsed && state.files.size > 0) {
+                toggleEditor();
+            }
+        }
+
+        async function handleFolderUpload(event) {
+            const files = event.target.files;
+            await processFolderFiles(files, true);
+            event.target.value = '';
+            
+            state.projectContextEnabled = true;
+            updateProjectContextToggle();
+            
+            if (state.editorCollapsed && state.files.size > 0) {
+                toggleEditor();
+            }
+        }
+
+        async function handlePromptFileUpload(event) {
+            const files = event.target.files;
+            for (const file of files) {
+                const content = await readFile(file);
+                
+                const isLongText = content.length > 5000 && file.type && file.type.startsWith('text/');
+                
+                state.promptUploads.set(file.name, {
+                    name: file.name,
+                    content: content,
+                    type: file.type || detectFileType(file.name),
+                    size: file.size,
+                    isLongPrompt: isLongText
+                });
+                
+                state.contextFiles.add(`prompt_${file.name}`);
+            }
+            updatePromptList();
+            updateContextIndicator();
+            event.target.value = '';
+        }
+
+        async function handleInstructionsFileUpload(event) {
+            const files = event.target.files;
+            for (const file of files) {
+                const content = await readFile(file);
+                
+                state.instructionsUploads.set(file.name, {
+                    name: file.name,
+                    content: content,
+                    type: file.type || detectFileType(file.name),
+                    size: file.size
+                });
+                
+                state.contextFiles.add(`instructions_${file.name}`);
+            }
+            updateInstructionsList();
+            updateContextIndicator();
+            event.target.value = '';
+        }
+
+        // ============================================================================
+        // APPLICATION INITIALIZATION (Enhanced with ButterViz Integration)
+        // ============================================================================
+        
+        window.addEventListener('load', async () => {
+            try {
+                await initDB();
+            } catch (error) {
+                console.error('Failed to initialize IndexedDB:', error);
+            }
+            
+            // Initialize core systems
+            initEditor();
+            initResizablePanels();
+            
+            // Initialize agent system
+            initAgentSystem();
+            
+            // Setup file upload handlers
+            document.getElementById('fileInput').addEventListener('change', handleFileUpload);
+            document.getElementById('folderInput').addEventListener('change', handleFolderUpload);
+            document.getElementById('promptFileInput').addEventListener('change', handlePromptFileUpload);
+            document.getElementById('instructionsFileInput').addEventListener('change', handleInstructionsFileUpload);
+            
+            // Load saved API keys
+            const savedKeys = localStorage.getItem('apiKeys');
+            if (savedKeys) {
+                state.apiKeys = JSON.parse(savedKeys);
+            }
+            
+            // Load cost tracking data
+            loadCostTracking();
+            
+            // Load last project
+            const lastProjectId = localStorage.getItem('lastProjectId');
+            if (lastProjectId && state.db) {
+                try {
+                    await loadProject(lastProjectId);
+                } catch (error) {
+                    console.error('Failed to load last project:', error);
+                }
+            }
+            
+            // Enhanced welcome message with agent system info
+            const agentStats = getAgentStats();
+            const enabledCount = Object.values(agentStats).filter(s => s.enabled).length;
+            
+            addMessage('assistant', `Welcome to AI Project Generator v6! 
+
+** ButterViz UI Style Activated**
+- Glass morphism design with backdrop blur
+- Purple accent theme with LED indicators  
+- Enhanced animations and interactions
+- SVG icon system throughout
+
+** Enhanced 3-Agent System Active (${enabledCount}/3 agents enabled):**
+- ** Generator Agent** ${agentStats.generator.enabled ? '' : ''} - Creates new code and files from scratch
+- ** Tweaker Agent** ${agentStats.tweaker.enabled ? '' : ''} - Modifies and improves existing code  
+- ** Debugger Agent** ${agentStats.debugger.enabled ? '' : ''} - Finds and fixes issues in your project
+
+** Token Cost Tracking**
+- Track API usage costs in real-time
+- View breakdown by model and agent
+- Download detailed reports
+- Monitor spending across sessions
+
+** New Features:**
+- **Progressive Context Indicator** - Green to red (150KB to 600KB), blinking red for >600KB
+- **Agent-Specific Instructions** - Upload custom instructions per agent
+- **Enhanced Dropdowns** - Glass morphism with smooth animations
+- **Keyboard Shortcuts** - Alt+1/2/3 to toggle agents
+
+**Enter Behavior:** Press Enter for new lines, Shift+Enter to send messages
+
+**Current Agent Status:** ${getAgentStatusText()}
+
+Ready to build something amazing with the new ButterViz style? Just tell me what you need and I'll route it to the best agent!`);
+            
+            updateContextIndicator();
+            updatePromptList();
+            updateInstructionsList();
+            
+            // Initialize ButterViz enhancements
+            setTimeout(() => {
+                initButterVizEnhancements();
+            }, 1000);
+            
+            // Enhanced input handling with progressive growth
+            const messageInput = document.getElementById('messageInput');
+            if (messageInput) {
+                // Progressive line-by-line growth
+                messageInput.addEventListener('input', function() {
+                    // Auto-resize based on content
+                    this.style.height = 'auto';
+                    const newHeight = Math.min(this.scrollHeight, 120); // Max 120px height
+                    this.style.height = newHeight + 'px';
+                    
+                    // Update container height if needed
+                    const container = document.getElementById('floatingInput');
+                    const wrapper = document.getElementById('inputWrapper');
+                    
+                    if (newHeight > 48) {
+                        container.classList.add('expanded');
+                        wrapper.classList.add('expanded');
+                    } else {
+                        container.classList.remove('expanded');
+                        wrapper.classList.remove('expanded');
+                    }
+                });
+                
+                // CHANGED: Enter adds new line, Shift+Enter sends
+                messageInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && e.shiftKey) {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                    // Regular Enter will now add a new line naturally
+                });
+            }
+            
+            // Context dropdown handler
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('contextDropdown');
+                const button = document.getElementById('contextButton');
+                
+                if (dropdown && button && !button.contains(event.target)) {
+                    dropdown.classList.remove('show');
+                    contextDropdownVisible = false;
+                }
+                
+                // Cost dropdown handler
+                const costDropdown = document.getElementById('costDropdown');
+                const costBtn = document.getElementById('costBtn');
+                const costContainer = document.querySelector('.cost-container');
+                
+                if (costDropdown && costBtn && costContainer && 
+                    !costContainer.contains(event.target)) {
+                    costDropdown.classList.remove('show');
+                    costDropdownVisible = false;
+                }
+            });
+            
+            // Dialog overlay handler
+            document.getElementById('dialogOverlay').addEventListener('click', () => {
+                closeFindReplace();
+                closeApiKeySetup();
+            });
+        });
+
+        // ============================================================================
+        // AUTO-SAVE AND PERSISTENCE (Essential)
+        // ============================================================================
+        
+        setInterval(() => {
+            if (state.activeFile && state.editor) {
+                const file = state.files.get(state.activeFile);
+                if (file) {
+                    const newContent = state.editor.getValue();
+                    if (file.content !== newContent) {
+                        file.content = newContent;
+                        file.modified = new Date().toISOString();
+                        saveProject();
+                    }
+                }
+            }
+            
+            if (state.projectId) {
+                localStorage.setItem('lastProjectId', state.projectId);
+            }
+            
+            // Auto-save agent states including instructions
+            saveAgentStates();
+        }, 5000);
+
+        // ============================================================================
+        // MOBILE KEYBOARD HANDLING (Essential for mobile)
+        // ============================================================================
+        
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', () => {
+                const keyboardHeight = window.innerHeight - window.visualViewport.height;
+                const inputContainer = document.getElementById('floatingInput');
+                if (keyboardHeight > 50) {
+                    inputContainer.style.bottom = `${keyboardHeight + 20}px`;
+                } else {
+                    inputContainer.style.bottom = '20px';
+                }
+            });
+        }
+
+        // ============================================================================
+        // PAGE PROTECTION (Essential for user experience)
+        // ============================================================================
+        
+        window.addEventListener('beforeunload', (e) => {
+            if (state.files.size > 0) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+
+        // ============================================================================
+        // ENHANCED DEBUGGING AND MONITORING
+        // ============================================================================
+        
+        // Console logging for agent system debugging
+        window.debugAgentSystem = function() {
+            console.log('=== AGENT SYSTEM DEBUG ===');
+            console.log('Enabled agents:', getEnabledAgents().map(a => a.name));
+            console.log('Agent stats:', getAgentStats());
+            console.log('Last used agent:', state.agentSystem.lastUsedAgent);
+            console.log('Request history (last 5):', state.agentSystem.requestHistory.slice(-5));
+            console.log('Agent status:', getAgentStatusText());
+            console.log('Active dropdown:', state.agentSystem.activeDropdown);
+            
+            // Show agent instructions
+            Object.keys(state.agents).forEach(agentId => {
+                const agent = state.agents[agentId];
+                console.log(`${agent.name} Agent:`, {
+                    model: agent.model,
+                    instructions: Array.from(agent.instructions.keys())
+                });
+            });
+        };
+        
+        // Test agent detection
+        window.testAgentDetection = function(message) {
+            const detected = detectBestAgent(message);
+            console.log(`Message: "${message}"`);
+            console.log(`Detected agent: ${detected?.name} (${detected?.icon})`);
+            console.log(`Reason: ${detected?.description}`);
+            return detected;
+        };
+        
+        // Monitor agent system health
+        setInterval(() => {
+            if (!hasEnabledAgents()) {
+                console.warn(' No agents enabled - AI functionality disabled');
+            }
+        }, 30000); // Check every 30 seconds
+    </script>
+</body>
+</html>
